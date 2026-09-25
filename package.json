@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "concurrently -n gateway,users -c blue,green \"npm run start:dev -w api-gateway\" \"npm run start:dev -w user-service\""
+    "dev": "concurrently -n gateway,users,orders -c blue,green,yellow \"npm run start:dev -w api-gateway\" \"npm run start:dev -w user-service\" \"npm run start:dev -w order-service\""
   },
   "keywords": [],
   "author": "",
