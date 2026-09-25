@@ -111,15 +111,27 @@ Each service is its own NestJS app with its own `package.json`.
 
 ## Running locally
 
-Only the scaffolded services can run right now:
+Both services run from the repo root. It's an npm workspace, so one install covers all of them:
 
 ```bash
-cd apps/api-gateway   # or apps/user-service
 npm install
-npm run start:dev
+npm run dev
 ```
 
-Once Kafka, Postgres and Redis are added, this section will change to a single `docker compose up`.
+`npm run dev` starts the API Gateway and User Service together via `concurrently`, prefixing each log line with `[gateway]` or `[users]`. Both run under `nest start --watch`, so saving a file recompiles and restarts that service. `Ctrl+C` stops both.
+
+| Service | URL |
+|---|---|
+| API Gateway | http://localhost:3000 |
+| User Service | http://localhost:3001 |
+
+To run a single service instead:
+
+```bash
+npm run start:dev -w user-service
+```
+
+Once Kafka, Postgres and Redis are added, they'll come up alongside this with `docker compose up`.
 
 ---
 
