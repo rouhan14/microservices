@@ -57,4 +57,10 @@ export class OrdersService implements OnModuleInit {
 
         return deleted;
     }
+
+    markAsPaid(id: string): Order {
+        const order  =this.findOne(id);
+        order.status = 'paid';
+        return order;
+    }
 }
