@@ -1,10 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { Order } from './order.interface.js';
+import { ClientKafka } from '@nestjs/microservices';
 
 @Injectable()
-export class OrdersService {
+export class OrdersService implements OnModuleInit {
 
     private readonly orders: Order[] = [];
+
+    constructor(@Inject('KAFKA_CLIENT') private readonly kafka: ClientKafka) {}
+
+    async onModuleInit() {
+        await this.kafka.connect();
+    }
 
     findAll(): Order[] {
         return this.orders;
@@ -20,6 +27,11 @@ export class OrdersService {
         };
 
         this.orders.push(order);
+
+        this.kafka.emit('order.created', {
+            key: order.id,
+            value: order,
+        });
 
         return order;
     }
