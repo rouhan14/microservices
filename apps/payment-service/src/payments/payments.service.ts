@@ -16,7 +16,7 @@ export class PaymentsService implements OnModuleInit {
         this.kafka.emit('payment.completed', {
             key: order.id,
             value: {
-                orderID: order.id,
+                orderId: order.id,
                 amount: order.amount,
                 paidAt: new Date().toISOString(),
             }
